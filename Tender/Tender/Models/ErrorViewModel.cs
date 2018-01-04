@@ -1,6 +1,6 @@
 using System;
 
-namespace Tender.Models
+namespace TenderApp.Models
 {
     public class ErrorViewModel
     {

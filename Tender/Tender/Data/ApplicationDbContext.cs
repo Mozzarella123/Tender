@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Tender.Models;
+using TenderApp.Models;
+using TenderApp.Models.BusinessModels;
 
-namespace Tender.Data
+namespace TenderApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -22,5 +23,16 @@ namespace Tender.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<Post> Posts { get; }
+        public DbSet<Attachment> Attachments { get;  }
+        public DbSet<User_Meta> User_Meta { get; }
+        public DbSet<Attachment> Post_Meta { get; }
+        public DbSet<Category> Categories { get;  }
+        public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
+        public IEnumerable<Comment> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
+        public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }
+        public IEnumerable<Tender> Tenders { get { return Posts.OfType<Tender>().AsEnumerable(); } }
+        public IEnumerable<Offer> Offers { get { return Posts.OfType<Offer>().AsEnumerable(); } }
+
     }
 }

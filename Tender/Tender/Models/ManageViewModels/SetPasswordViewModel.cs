@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tender.Models.ManageViewModels
+namespace TenderApp.Models.ManageViewModels
 {
     public class SetPasswordViewModel
     {

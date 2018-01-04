@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tender.Controllers;
+using TenderApp.Controllers;
 
 namespace Microsoft.AspNetCore.Mvc
 {

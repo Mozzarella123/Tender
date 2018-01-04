@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tender.Models.AccountViewModels
+namespace TenderApp.Models.AccountViewModels
 {
     public class LoginViewModel
     {

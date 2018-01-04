@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Tender.Models;
-using Tender.Models.AccountViewModels;
-using Tender.Services;
+using TenderApp.Models;
+using TenderApp.Models.AccountViewModels;
+using TenderApp.Services;
 
-namespace Tender.Controllers
+namespace TenderApp.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]

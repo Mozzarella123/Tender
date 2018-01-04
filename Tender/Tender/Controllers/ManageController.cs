@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Tender.Models;
-using Tender.Models.ManageViewModels;
-using Tender.Services;
+using TenderApp.Models;
+using TenderApp.Models.ManageViewModels;
+using TenderApp.Services;
 
-namespace Tender.Controllers
+namespace TenderApp.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -495,7 +495,7 @@ namespace Tender.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("Tender"),
+                _urlEncoder.Encode("TenderApp"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

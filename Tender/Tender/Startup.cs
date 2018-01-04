@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tender.Data;
-using Tender.Models;
-using Tender.Services;
+using TenderApp.Data;
+using TenderApp.Models;
+using TenderApp.Services;
 
-namespace Tender
+namespace TenderApp
 {
     public class Startup
     {

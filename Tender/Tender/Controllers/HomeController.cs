@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Tender.Models;
+using TenderApp.Models;
 
-namespace Tender.Controllers
+namespace TenderApp.Controllers
 {
     public class HomeController : Controller
     {
