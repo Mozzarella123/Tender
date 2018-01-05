@@ -26,10 +26,10 @@ namespace TenderApp.Data
         public DbSet<Post> Posts { get; }
         public DbSet<Attachment> Attachments { get;  }
         public DbSet<User_Meta> User_Meta { get; }
-        public DbSet<Attachment> Post_Meta { get; }
+        public DbSet<Post_Meta> Post_Meta { get; }
         public DbSet<Category> Categories { get;  }
         public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
-        public IEnumerable<Comment> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
+        public IEnumerable<Review> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
         public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }
         public IEnumerable<Tender> Tenders { get { return Posts.OfType<Tender>().AsEnumerable(); } }
         public IEnumerable<Offer> Offers { get { return Posts.OfType<Offer>().AsEnumerable(); } }
