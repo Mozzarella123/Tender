@@ -27,7 +27,9 @@ namespace TenderApp.Data
         public DbSet<Attachment> Attachments { get;  }
         public DbSet<User_Meta> User_Meta { get; }
         public DbSet<Post_Meta> Post_Meta { get; }
-        public DbSet<Category> Categories { get;  }
+        public DbSet<Category> Categories { get; }
+        public DbSet<SubGroup> SubGroups { get; }
+        public DbSet<Sub> Subs { get; }
         public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
         public IEnumerable<Review> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
         public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }

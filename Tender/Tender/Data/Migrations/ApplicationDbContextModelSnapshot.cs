@@ -380,6 +380,27 @@ namespace TenderApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
+            //modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
+            //{
+            //    b.Property<int>("SubGroupId")
+            //        .ValueGeneratedOnAdd();
+
+            //    b.Property<string>("Key");
+
+            //    b.Property<int?>("ParentUser_MetaId");
+
+            //    b.Property<string>("UserId");
+
+            //    b.Property<string>("Value");
+
+            //    b.HasKey("User_MetaId");
+
+            //    b.HasIndex("ParentUser_MetaId");
+
+            //    b.HasIndex("UserId");
+
+            //    b.ToTable("User_Meta");
+            //});
 #pragma warning restore 612, 618
         }
     }
