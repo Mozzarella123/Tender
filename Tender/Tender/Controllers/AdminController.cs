@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using TenderApp.Models;
 using TenderApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using TenderApp.Models.BusinessModels;
 
 namespace TenderApp.Controllers
 {
@@ -27,6 +28,24 @@ namespace TenderApp.Controllers
             ViewBag.Users = userManager.Users;
             return View();
         }
+        
+        [HttpGet]
+        public ViewResult ManageSubs()
+        {
+            return View(repository.SubGroups);
+        }
 
+        [HttpGet]
+        public PartialViewResult CreateSubGroup()
+        {
+            return PartialView(); 
+        }
+
+        [HttpPost]
+        public ViewResult CreateSubGroup(SubGroup group)
+        {
+            repository.SaveSubGroup(group);
+            return View("ManageSubs");
+        }
     }
 }

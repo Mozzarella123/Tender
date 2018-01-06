@@ -1,0 +1,52 @@
+﻿@using TenderApp.Models.BusinessModels
+@model IEnumerable<SubGroup>
+
+@{
+    ViewData["Title"] = "ManageSubs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (SubGroup s in Model)
+{
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#@s.Name" aria-expanded="false" aria-controls="collapseExample">
+            @s.Name
+        </a>
+        @Html.ActionLink("Удалить группу полей", "Admin", "DeleteSubGroup", s, new { @class = "btn btn-primary" })
+    </p>
+
+    <div class="collapse" id="@s.Name">
+        <div class="card card-block">
+            <table>
+                @foreach(Sub sub in s.Subs.OrderBy(S=>S.Priority))
+                {
+                    <tr>
+                        <td>
+                            @sub.Name
+                        </td>
+                        <td>
+                            @{ 
+                                string Text = "";
+                                switch (sub.Type)
+                                {
+                                    case 0:Text = "TextBox";break;
+                                    case 1:Text = "TextArea";break;
+                                    case 2:Text = "Image";break;
+                                }
+                                Html.DisplayText(Text);
+                            }   
+                        </td>
+                        <td>
+                            @Html.ActionLink("Удалить поле", "Admin", "DeleteSub", sub, new { @class = "btn btn-default" })
+                            @Html.ActionLink("Редактировать поле", "Admin", "EditSub", sub, new { @class = "btn btn-default" })
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Добавить поле", "Admin", "CreateSubFor", s, new { @class = "btn btn-block btn-default btn-lg" })
+        </div>
+    </div>
+}
+
+@Html.ActionLink("Добавить группу полей", "CreateSubGroup", "Admin", null, new { @class = "btn btn-block btn-default btn-lg" })
+

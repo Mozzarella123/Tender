@@ -24,6 +24,24 @@ namespace TenderApp.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public void SaveSubGroup(SubGroup group)
+        {
+            if (group.SubGroupId != -1)
+                SubGroups.Add(group);
+            else
+            {
+                var temp = SubGroups.FirstOrDefault(s => s.SubGroupId == group.SubGroupId);
+                if (temp != null)
+                {
+                    temp = group;
+                }
+                else
+                    SubGroups.Add(group);
+            }
+            SaveChanges();
+        }
+
         public DbSet<Post> Posts { get; }
         public DbSet<Attachment> Attachments { get; }
         public DbSet<User_Meta> User_Meta { get; }
@@ -37,5 +55,13 @@ namespace TenderApp.Data
         public IEnumerable<Tender> Tenders { get { return Posts.OfType<Tender>().AsEnumerable(); } }
         public IEnumerable<Offer> Offers { get { return Posts.OfType<Offer>().AsEnumerable(); } }
 
+        IEnumerable<SubGroup> IRepository.SubGroups
+        {
+            get { if (SubGroups == null)
+                    return new List<SubGroup>();
+                else
+                    return SubGroups.AsEnumerable();
+            }
+        }
     }
 }
