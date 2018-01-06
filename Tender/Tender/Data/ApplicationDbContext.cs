@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TenderApp.Models;
 using TenderApp.Models.BusinessModels;
+using TenderApp.Services;
 
 namespace TenderApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IRepository
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

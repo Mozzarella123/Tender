@@ -267,6 +267,42 @@ namespace TenderApp.Data.Migrations
                     b.ToTable("Post_Meta");
                 });
 
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.Sub", b =>
+                {
+                    b.Property<int>("SubId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<int?>("SubGroupId");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("SubId");
+
+                    b.HasIndex("SubGroupId");
+
+                    b.ToTable("Subs");
+                });
+
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
+                {
+                    b.Property<int>("SubGroupId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ForType");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Priority");
+
+                    b.HasKey("SubGroupId");
+
+                    b.ToTable("SubGroups");
+                });
+
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>
                 {
                     b.Property<int>("User_MetaId")
@@ -370,6 +406,13 @@ namespace TenderApp.Data.Migrations
                         .HasForeignKey("PostId");
                 });
 
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.Sub", b =>
+                {
+                    b.HasOne("TenderApp.Models.BusinessModels.SubGroup")
+                        .WithMany("Subs")
+                        .HasForeignKey("SubGroupId");
+                });
+
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>
                 {
                     b.HasOne("TenderApp.Models.BusinessModels.User_Meta", "Parent")
@@ -380,27 +423,6 @@ namespace TenderApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
-            //modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
-            //{
-            //    b.Property<int>("SubGroupId")
-            //        .ValueGeneratedOnAdd();
-
-            //    b.Property<string>("Key");
-
-            //    b.Property<int?>("ParentUser_MetaId");
-
-            //    b.Property<string>("UserId");
-
-            //    b.Property<string>("Value");
-
-            //    b.HasKey("User_MetaId");
-
-            //    b.HasIndex("ParentUser_MetaId");
-
-            //    b.HasIndex("UserId");
-
-            //    b.ToTable("User_Meta");
-            //});
 #pragma warning restore 612, 618
         }
     }

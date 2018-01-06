@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    IQueryable<ApplicationUser> Users = ViewBag.Users;
+}
+
+<h2>Админ-панель</h2>
+@Html.Partial("_UsersPartial", Users)

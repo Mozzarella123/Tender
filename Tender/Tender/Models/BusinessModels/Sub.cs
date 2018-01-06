@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TenderApp.Models.BusinessModels
 {
-    
     public class Sub
     {
-        
         public int SubId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

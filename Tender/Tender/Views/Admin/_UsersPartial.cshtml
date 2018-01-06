@@ -1,0 +1,14 @@
+﻿@model IQueryable<ApplicationUser>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<table class="table">
+    @foreach (ApplicationUser user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>@user.EmailConfirmed</td>
+        </tr>
+    }
+</table>

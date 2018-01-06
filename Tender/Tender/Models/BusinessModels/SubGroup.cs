@@ -8,10 +8,9 @@ namespace TenderApp.Models.BusinessModels
 {
     public class SubGroup
     {
-
         public int SubGroupId { get; set; }
         public string Name { get; set; }
-        public Type ForType { get; set; }
+        public string ForType { get; set; }
         public int Priority { get; set; }
         public ICollection<Sub> Subs { get; set; }
     }

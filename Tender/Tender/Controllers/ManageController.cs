@@ -464,6 +464,27 @@ namespace TenderApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string Id = null)
+        {
+            ApplicationUser user;
+            if (Id == null)
+            {
+                user = await _userManager.GetUserAsync(User);
+                await _signInManager.SignOutAsync();
+            }
+            else
+                user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+                throw new ApplicationException($"Пользователь с таким ID '{Id}' не найден.");
+            await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+            _userManager.DeleteAsync(user);
+            if (Id == null)
+                return RedirectToAction("Index", "Home");
+            return View();
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
