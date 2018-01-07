@@ -82,6 +82,13 @@ namespace XunitTenderTests
                 
             }
             
+
+            [Fact]
+            public async Task IndexwithoutId()
+            {
+
+            }
+
             [Theory]
             [InlineData("test@test.it", "Ciao.Ciao")]
             public async Task RegisterTest(string email,string password)

@@ -46,7 +46,7 @@ namespace TenderApp.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -209,6 +209,8 @@ namespace TenderApp.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            if (User.IsInRole("admin"))
+                return PartialView();
             return View();
         }
 
@@ -217,7 +219,7 @@ namespace TenderApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-           
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -230,14 +232,18 @@ namespace TenderApp.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
-                    return RedirectToLocal(returnUrl);
+                    if (!User.IsInRole("admin"))
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
+                        return RedirectToLocal(returnUrl);
+                    }
+                    return PartialView("_MessagePartial", "Пользователь создан");
                 }
                 AddErrors(result);
             }
-
+            if (User.IsInRole("admin"))
+                return PartialView(model);
             // If we got this far, something failed, redisplay form
             return View(model);
         }

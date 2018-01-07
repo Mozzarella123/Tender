@@ -1,0 +1,22 @@
+﻿@{ 
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Админ панель</h2>
+
+<div>
+    <div class="row">
+        <div class="col-md-2">
+            @await Html.PartialAsync("_ManageNav", new Dictionary<string, string>() { { "Пользователи", "Admin/Index" } })
+        </div>
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@Html.Partial("_AdminModalPartial")
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+        
