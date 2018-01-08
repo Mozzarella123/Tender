@@ -19,18 +19,18 @@ namespace TenderApp.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+                base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
-        public DbSet<Post> Posts { get; }
-        public DbSet<Attachment> Attachments { get; }
-        public DbSet<User_Meta> User_Meta { get; }
-        public DbSet<Post_Meta> Post_Meta { get; }
-        public DbSet<Category> Categories { get; }
-        public DbSet<SubGroup> SubGroups { get; }
-        public DbSet<Sub> Subs { get; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<User_Meta> User_Meta { get; set; }
+        public DbSet<Post_Meta> Post_Meta { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubGroup> SubGroups { get; set; }
+        public DbSet<Sub> Subs { get; set; }
         public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
         public IEnumerable<Review> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
         public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }

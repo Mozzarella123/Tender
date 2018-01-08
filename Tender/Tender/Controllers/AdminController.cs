@@ -9,6 +9,8 @@ using TenderApp.Models;
 using TenderApp.Models.ManageViewModels;
 using TenderApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using TenderApp.Models.AccountViewModels;
 
 namespace TenderApp.Controllers
 {
@@ -18,14 +20,20 @@ namespace TenderApp.Controllers
         IRepository repository;
         readonly UserManager<ApplicationUser> _userManager;
         readonly SignInManager<ApplicationUser> _signInManager;
+        readonly IEmailSender _emailSender;
+        readonly ILogger _logger;
         [TempData]
         string StatusMessage { get; set; }
         public AdminController(UserManager<ApplicationUser> userManager,
-                      SignInManager<ApplicationUser> signInManager,
+                      SignInManager<ApplicationUser> signInManager, IEmailSender emailSender,
+            ILogger<AccountController> logger,
             IRepository repos)
         {
             repository = repos;
             this._userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
         }
         // GET: Admin
         public ActionResult Index()
@@ -97,12 +105,47 @@ namespace TenderApp.Controllers
             ApplicationUser user = await _userManager.FindByIdAsync(Id);
             await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
             await _userManager.DeleteAsync(user);
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AddUser()
+        {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUser(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    return RedirectToAction("Index");
+                }
+                AddErrors(result);
+            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
         public ActionResult Users()
         {
             return View(_userManager.Users);
         }
-
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
     }
 }

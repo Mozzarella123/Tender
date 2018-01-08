@@ -61,7 +61,7 @@ namespace TenderApp.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -86,7 +86,7 @@ namespace TenderApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+      
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
@@ -228,22 +228,15 @@ namespace TenderApp.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                    if (!User.IsInRole("admin"))
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
-                        return RedirectToLocal(returnUrl);
-                    }
-                    return PartialView("_MessagePartial", "Пользователь создан");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation("Пользователь создал новый аккаунт с паролем.");
+                    return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
             }
-            if (User.IsInRole("admin"))
-                return PartialView(model);
             // If we got this far, something failed, redisplay form
             return View(model);
         }
