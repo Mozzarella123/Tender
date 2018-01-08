@@ -1,0 +1,47 @@
+﻿@model IQueryable<ApplicationUser>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject  UserManager<ApplicationUser> _userManager
+@inject  RoleManager<IdentityRole> _roleManager
+<header class="d-flex align-items-center mb-3">
+    <h2 class=" m-0 mr-2">Пользователи</h2>@Html.ActionLink("Добавить","AddUser","Admin",null,null,null,null,new { @class= "btn btn-primary" })
+</header>
+<table class="table table-striped table-sm table-bordered text-center">
+    <thead>
+        <tr class="text-center">
+            <th>Логин</th>
+            <th colspan="2">Email</th>
+            <th colspan="2">Телефон</th>
+            <th colspan="2">Действия</th> 
+            <th>Роли</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ApplicationUser user in Model)
+        {
+
+            string emcomf = (user.EmailConfirmed) ? "Подтвержден" : "Не подтвержден";
+            string telcomf = (user.PhoneNumberConfirmed) ? "Подтвержден" : "Не подтвержден";
+
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>           
+                <td>@emcomf</td>
+                <td>@user.PhoneNumber</td>
+                <td>@telcomf</td>
+                <td>@string.Join(',',await _userManager.GetRolesAsync(user))</td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", "Admin", null, null, null, new { Id = user.Id }, new { @class = "btn btn-primary" })
+                </td>
+                <td>
+                    <form method="post" asp-controller="Admin" asp-action="Delete" asp-route-id="@user.Id" id="delete">
+                         
+                        <button type="submit" class="btn btn-danger needconfirm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("_ConfrirmationMessagePartial", new Dictionary<string, string>() { { "Message", "Вы действительно хотите удалить аккаунт? Действие необратимо." }, { "ButtonText", "Удалить" } })

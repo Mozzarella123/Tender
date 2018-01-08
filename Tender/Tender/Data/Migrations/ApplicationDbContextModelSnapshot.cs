@@ -199,7 +199,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Category", b =>
@@ -265,6 +265,42 @@ namespace TenderApp.Data.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Post_Meta");
+                });
+
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.Sub", b =>
+                {
+                    b.Property<int>("SubId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<int?>("SubGroupId");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("SubId");
+
+                    b.HasIndex("SubGroupId");
+
+                    b.ToTable("Subs");
+                });
+
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
+                {
+                    b.Property<int>("SubGroupId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ForType");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Priority");
+
+                    b.HasKey("SubGroupId");
+
+                    b.ToTable("SubGroups");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>
@@ -368,6 +404,13 @@ namespace TenderApp.Data.Migrations
                     b.HasOne("TenderApp.Models.BusinessModels.Post")
                         .WithMany("Metas")
                         .HasForeignKey("PostId");
+                });
+
+            modelBuilder.Entity("TenderApp.Models.BusinessModels.Sub", b =>
+                {
+                    b.HasOne("TenderApp.Models.BusinessModels.SubGroup")
+                        .WithMany("Subs")
+                        .HasForeignKey("SubGroupId");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>

@@ -33,9 +33,29 @@ namespace TenderApp
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                //Password options
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+
+                //User options
+                options.User.RequireUniqueEmail = true;
+                
+                
+            });
+            services.Configure<IdentityErrorDescriber>(options =>
+            {
+                
+            });
+           
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddTransient<IRepository, ApplicationDbContext>();
             services.AddMvc();
         }
 
@@ -56,6 +76,11 @@ namespace TenderApp
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+
+
+
+
 
             app.UseMvc(routes =>
             {

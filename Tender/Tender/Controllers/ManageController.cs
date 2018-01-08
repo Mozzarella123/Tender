@@ -44,14 +44,16 @@ namespace TenderApp.Controllers
 
         [TempData]
         public string StatusMessage { get; set; }
+        bool Admin { get { return User.IsInRole("admin"); } }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
+
+            var user = await _userManager.GetUserAsync(User) ;
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не получилось загрузить пользователя с  ID '{_userManager.GetUserId(User)}'.");
             }
 
             var model = new IndexViewModel
@@ -75,10 +77,10 @@ namespace TenderApp.Controllers
                 return View(model);
             }
 
-            var user = await _userManager.GetUserAsync(User);
+            var user =  await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не получилось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var email = user.Email;
@@ -87,7 +89,7 @@ namespace TenderApp.Controllers
                 var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    throw new ApplicationException($"Непредвиденная ошибка при установке email для пользователя с ID '{user.Id}'.");
                 }
             }
 
@@ -97,11 +99,11 @@ namespace TenderApp.Controllers
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    throw new ApplicationException($"Непредвиденная ошибка при установке телефона для пользователя ID '{user.Id}'.");
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Ваш профиль обновлен";
             return RedirectToAction(nameof(Index));
         }
 
@@ -464,6 +466,20 @@ namespace TenderApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete()
+        {
+            ApplicationUser user;
+                user = await _userManager.GetUserAsync(User);
+                await _signInManager.SignOutAsync();
+            if (user == null)
+                throw new ApplicationException($"Пользователь с таким ID '{_userManager.GetUserId(User)}' не найден.");
+            await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+            _userManager.DeleteAsync(user);
+            return RedirectToAction("Index","Home");
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
@@ -480,7 +496,7 @@ namespace TenderApp.Controllers
             int currentPosition = 0;
             while (currentPosition + 4 < unformattedKey.Length)
             {
-                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append("");
                 currentPosition += 4;
             }
             if (currentPosition < unformattedKey.Length)
