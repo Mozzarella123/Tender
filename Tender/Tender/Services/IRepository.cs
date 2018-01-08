@@ -17,5 +17,6 @@ namespace TenderApp.Services
         IEnumerable<Offer> Offers { get; }
         IEnumerable<SubGroup> SubGroups { get; }
         void SaveSubGroup(SubGroup group);
+        void DeleteSubGroup(SubGroup group);
     }
 }

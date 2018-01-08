@@ -42,13 +42,22 @@ namespace TenderApp.Data
             SaveChanges();
         }
 
-        public DbSet<Post> Posts { get; }
-        public DbSet<Attachment> Attachments { get; }
-        public DbSet<User_Meta> User_Meta { get; }
-        public DbSet<Post_Meta> Post_Meta { get; }
-        public DbSet<Category> Categories { get; }
-        public DbSet<SubGroup> SubGroups { get; }
-        public DbSet<Sub> Subs { get; }
+        public void DeleteSubGroup(SubGroup group)
+        {
+            if (group != null)//Чтобы ничего не сломалось, необходимо проверять чтобы обьект не был null
+            {
+                SubGroups.Remove(group);
+                SaveChanges();
+            }
+        }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<User_Meta> User_Meta { get; set; }
+        public DbSet<Post_Meta> Post_Meta { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubGroup> SubGroups { get; set; }
+        public DbSet<Sub> Subs { get; set; }
         public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
         public IEnumerable<Review> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
         public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }

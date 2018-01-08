@@ -42,10 +42,17 @@ namespace TenderApp.Controllers
         }
 
         [HttpPost]
-        public ViewResult CreateSubGroup(SubGroup group)
+        public ActionResult CreateSubGroup(SubGroup group)
         {
             repository.SaveSubGroup(group);
-            return View("ManageSubs");
+            return Redirect("ManageSubs");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSubGroup(int groupId)
+        {
+            repository.DeleteSubGroup(repository.SubGroups.FirstOrDefault(s => s.SubGroupId == groupId));
+            return Redirect("ManageSubs");
         }
     }
 }

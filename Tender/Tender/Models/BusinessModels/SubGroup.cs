@@ -9,11 +9,16 @@ namespace TenderApp.Models.BusinessModels
 {
     public class SubGroup
     {
+        public SubGroup()
+        {
+            Subs = new List<Sub>();
+        }
         [HiddenInput(DisplayValue = false)]
         public int SubGroupId { get; set; }
         public string Name { get; set; }
-        public int ForType { get; set; }
+        public Type ForType { get; set; }
         public int Priority { get; set; }
-        public ICollection<Sub> Subs { get; set; }
+        public IEnumerable<Sub> Subs { get; set; }
+        public enum Type { Review,Application,Page,Organization,Tender,Offer,Comment,Post }
     }
 }

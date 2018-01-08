@@ -8,17 +8,28 @@
 
 @foreach (SubGroup s in Model)
 {
-    <p>
+    <div>
         <a class="btn btn-primary" data-toggle="collapse" href="#@s.Name" aria-expanded="false" aria-controls="collapseExample">
             @s.Name
         </a>
-        @Html.ActionLink("Удалить группу полей", "Admin", "DeleteSubGroup", s, new { @class = "btn btn-primary" })
-    </p>
+        <span>
+            @{ 
+                string text = s.ForType.ToString();
+            }
+            @text
+        </span>
+        <form asp-action="DeleteSubGroup">
+            <input type="hidden" name="groupId" value="@s.SubGroupId" />
+            <input type="submit" class="btn btn-primary" value="Удалить группу полей">
+        </form>
+        @*}*@
+        @*@Html.ActionLink("Удалить группу полей", "DeleteSubGroup", "Admin", s.SubGroupId, new { @class = "btn btn-primary" })*@
+    </div>
 
     <div class="collapse" id="@s.Name">
         <div class="card card-block">
             <table>
-                @foreach(Sub sub in s.Subs.OrderBy(S=>S.Priority))
+                @foreach(Sub sub in s.Subs.OrderBy(S=>-S.Priority))
                 {
                     <tr>
                         <td>
@@ -37,18 +48,16 @@
                             }   
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить поле", "Admin", "DeleteSub", sub, new { @class = "btn btn-default" })
-                            @Html.ActionLink("Редактировать поле", "Admin", "EditSub", sub, new { @class = "btn btn-default" })
+                            @Html.ActionLink("Удалить поле", "DeleteSub", "Admin", sub, new { @class = "btn btn-default" })
+                            @Html.ActionLink("Редактировать поле", "EditSub", "Admin", sub, new { @class = "btn btn-default" })
                         </td>
                     </tr>
                 }
             </table>
-            @Html.ActionLink("Добавить поле", "Admin", "CreateSubFor", s, new { @class = "btn btn-block btn-default btn-lg" })
+            @Html.ActionLink("Добавить поле", "CreateSubFor", "Admin", s, new { @class = "btn btn-block btn-default btn-lg" })
         </div>
     </div>
 }
-
-@*@Html.ActionLink("Добавить группу полей", "CreateSubGroup", "Admin", null, new { @class = "btn btn-block btn-default btn-lg" })*@
 
 <button class="btn btn-primary" type="button" id="SubGroupCreaterButton">Добавить группу полей</button>
 
