@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    bool admin = User.IsInRole("admin");
+    string query = Context.Request.Path.ToString();
+    string Id = (admin) ? query.Substring(query.LastIndexOf('/')+1,query.Length- query.LastIndexOf('/')-1) : "";
+
+}
+@model IndexViewModel
+@Html.Partial("AccountPartials/_StatusMessage", Model.StatusMessage)
+<form method="post" asp-action="@ViewBag.Action">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (admin)
+    {
+        <input asp-for="Id" value="@Id" hidden />
+    }
+    <div class="form-group">
+        <label asp-for="Username"></label>
+        <input asp-for="Username" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        @if (Model.IsEmailConfirmed)
+        {
+            <div class="input-group">
+                <input asp-for="Email" class="form-control" />
+                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+            </div>
+        }
+        else
+        {
+            <input asp-for="Email" class="form-control" />
+            <button asp-action="SendVerificationEmail" class="btn btn-link">Отправить подтверждение на почту</button>
+        }
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-default">Сохранить</button>
+</form>
+@if (!admin)
+{
+    <form asp-action="Delete" method="post" id="delete" asp-route-Id="@Id">
+        <button type="submit" class="btn btn-danger needconfirm">Удалить</button>
+    </form>
+}
