@@ -19,19 +19,6 @@ namespace TenderApp.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-            builder.Entity<Post>().ToTable("Posts");
-            builder.Entity<Post_Meta>().ToTable("Post_Meta");
-            builder.Entity<Attachment>().ToTable("Attachments");
-            builder.Entity<User_Meta>().ToTable("User_Meta");
-            builder.Entity<Category>().ToTable("Categories");
-            builder.Entity<SubGroup>().ToTable("SubGroups");
-            builder.Entity<Sub>().ToTable("Subs");
-            builder.Entity<Comment>().ToTable("Posts");
-            builder.Entity<Review>().ToTable("Posts");
-            builder.Entity<Application>().ToTable("Posts");
-            builder.Entity<Tender>().ToTable("Posts");
-            builder.Entity<Offer>().ToTable("Posts");
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
