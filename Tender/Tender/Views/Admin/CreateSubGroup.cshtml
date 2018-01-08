@@ -1,0 +1,12 @@
+﻿@using TenderApp.Models.BusinessModels
+@model SubGroup
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type = "submit" value = "Сохранить" />
+}

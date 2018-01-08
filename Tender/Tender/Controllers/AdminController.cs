@@ -9,8 +9,10 @@ using TenderApp.Models;
 using TenderApp.Models.ManageViewModels;
 using TenderApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using TenderApp.Models.BusinessModels;
 using Microsoft.Extensions.Logging;
 using TenderApp.Models.AccountViewModels;
+
 
 namespace TenderApp.Controllers
 {
@@ -113,8 +115,31 @@ namespace TenderApp.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        public ViewResult ManageSubs()
+        {
+            return View(repository.SubGroups);
+        }
+
+        [HttpGet]
+        public PartialViewResult CreateSubGroup()
+        {
+            return PartialView(); 
+        }
 
         [HttpPost]
+        public ActionResult CreateSubGroup(SubGroup group)
+        {
+            repository.SaveSubGroup(group);
+            return Redirect("ManageSubs");
+        }
+        [HttpPost]
+        public ActionResult DeleteSubGroup(int groupId)
+        {
+            repository.DeleteSubGroup(repository.SubGroups.FirstOrDefault(s => s.SubGroupId == groupId));
+            return Redirect("ManageSubs");
+        }
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser(RegisterViewModel model)

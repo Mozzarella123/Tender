@@ -22,5 +22,8 @@ namespace TenderApp.Services
         IEnumerable<Application> Applications { get; }
         IEnumerable<Tender> Tenders { get; }
         IEnumerable<Offer> Offers { get; }
+        IEnumerable<SubGroup> SubGroups { get; }
+        void SaveSubGroup(SubGroup group);
+        void DeleteSubGroup(SubGroup group);
     }
 }
