@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using TenderApp.Data;
 using TenderApp.Models.BusinessModels;
@@ -200,7 +199,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachment");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Category", b =>
@@ -220,7 +219,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Post", b =>
@@ -235,9 +234,6 @@ namespace TenderApp.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<int>("Status");
 
                     b.Property<string>("Title");
@@ -246,9 +242,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Post");
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Post_Meta", b =>
@@ -290,7 +284,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasIndex("SubGroupId");
 
-                    b.ToTable("Subs");
+                    b.ToTable("Sub");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
@@ -306,7 +300,7 @@ namespace TenderApp.Data.Migrations
 
                     b.HasKey("SubGroupId");
 
-                    b.ToTable("SabGroups");
+                    b.ToTable("SubGroup");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>
@@ -329,97 +323,6 @@ namespace TenderApp.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("User_Meta");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Comment", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Post");
-
-                    b.Property<int?>("PostId1");
-
-                    b.HasIndex("PostId1");
-
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator().HasValue("Comment");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Offer", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Post");
-
-                    b.Property<int?>("OrganizationPostId")
-                        .HasColumnName("Offer_OrganizationPostId");
-
-                    b.Property<double>("Price");
-
-                    b.HasIndex("OrganizationPostId");
-
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator().HasValue("Offer");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Organization", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Post");
-
-                    b.Property<string>("Adress");
-
-                    b.ToTable("Organization");
-
-                    b.HasDiscriminator().HasValue("Organization");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Tender", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Post");
-
-                    b.Property<DateTime>("EndTime");
-
-                    b.Property<int?>("OrganizationPostId")
-                        .HasColumnName("Tender_OrganizationPostId");
-
-                    b.Property<DateTime>("StartTime");
-
-                    b.HasIndex("OrganizationPostId");
-
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator().HasValue("Tender");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Application", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Comment");
-
-                    b.Property<int?>("OrganizationPostId");
-
-                    b.Property<int?>("TenderPostId");
-
-                    b.HasIndex("OrganizationPostId");
-
-                    b.HasIndex("TenderPostId");
-
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator().HasValue("Application");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Review", b =>
-                {
-                    b.HasBaseType("TenderApp.Models.BusinessModels.Comment");
-
-                    b.Property<int>("Mark");
-
-                    b.Property<int?>("OrganizationPostId")
-                        .HasColumnName("Review_OrganizationPostId");
-
-                    b.HasIndex("OrganizationPostId");
-
-                    b.ToTable("Posts");
-
-                    b.HasDiscriminator().HasValue("Review");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -519,45 +422,6 @@ namespace TenderApp.Data.Migrations
                     b.HasOne("TenderApp.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Comment", b =>
-                {
-                    b.HasOne("TenderApp.Models.BusinessModels.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId1");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Offer", b =>
-                {
-                    b.HasOne("TenderApp.Models.BusinessModels.Organization", "Organization")
-                        .WithMany("Offers")
-                        .HasForeignKey("OrganizationPostId");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Tender", b =>
-                {
-                    b.HasOne("TenderApp.Models.BusinessModels.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationPostId");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Application", b =>
-                {
-                    b.HasOne("TenderApp.Models.BusinessModels.Organization")
-                        .WithMany("Applications")
-                        .HasForeignKey("OrganizationPostId");
-
-                    b.HasOne("TenderApp.Models.BusinessModels.Tender")
-                        .WithMany("Offers")
-                        .HasForeignKey("TenderPostId");
-                });
-
-            modelBuilder.Entity("TenderApp.Models.BusinessModels.Review", b =>
-                {
-                    b.HasOne("TenderApp.Models.BusinessModels.Organization")
-                        .WithMany("Reviews")
-                        .HasForeignKey("OrganizationPostId");
                 });
 #pragma warning restore 612, 618
         }

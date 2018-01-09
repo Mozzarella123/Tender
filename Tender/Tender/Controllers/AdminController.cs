@@ -119,7 +119,7 @@ namespace TenderApp.Controllers
         [HttpGet]
         public ViewResult ManageSubs()
         {
-            return View(repository.SubGroups);
+            return View(repository.SubGroup);
         }
 
         [HttpGet]
@@ -137,7 +137,7 @@ namespace TenderApp.Controllers
         [HttpPost]
         public ActionResult DeleteSubGroup(int groupId)
         {
-            repository.DeleteSubGroup(repository.SubGroups.FirstOrDefault(s => s.SubGroupId == groupId));
+            repository.DeleteSubGroup(repository.SubGroup.FirstOrDefault(s => s.SubGroupId == groupId));
             return Redirect("ManageSubs");
         }
         [AllowAnonymous]
