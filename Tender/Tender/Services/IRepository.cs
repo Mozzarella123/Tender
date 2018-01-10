@@ -17,13 +17,22 @@ namespace TenderApp.Services
         DbSet<Category> Category { get; set; }
         DbSet<SubGroup> SubGroup { get; set; }
         DbSet<Sub> Sub { get; set; }
-        IEnumerable<Comment> Comments { get; }
-        IEnumerable<Review> Reviews { get; }
-        IEnumerable<Application> Applications { get; }
-        IEnumerable<Tender> Tenders { get; }
-        IEnumerable<Offer> Offers { get; }
+        IEnumerable<Comment> Comment { get; }
+        IEnumerable<Review> Review { get; }
+        IEnumerable<Application> Application { get; }
+        IEnumerable<Tender> Tender { get; }
+        IEnumerable<Offer> Offer { get; }
         void SaveSubGroup(SubGroup group);
         void DeleteSubGroup(SubGroup group);
         void Save();
+    }
+
+    public delegate void action<T>(T entity);
+    public interface IRepository<T>
+    {
+        void Delete(T obj);
+        void Create(T obj);
+        void Update(T obj);
+        ICollection<T> collection { get; set; }
     }
 }

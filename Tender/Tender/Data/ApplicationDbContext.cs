@@ -58,11 +58,11 @@ namespace TenderApp.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<SubGroup> SubGroup { get; set; }
         public DbSet<Sub> Sub { get; set; }
-        public IEnumerable<Comment> Comments { get { return Post.OfType<Comment>().AsEnumerable(); } }
-        public IEnumerable<Review> Reviews { get { return Post.OfType<Review>().AsEnumerable(); } }
-        public IEnumerable<Application> Applications { get { return Post.OfType<Application>().AsEnumerable(); } }
-        public IEnumerable<Tender> Tenders { get { return Post.OfType<Tender>().AsEnumerable(); } }
-        public IEnumerable<Offer> Offers { get { return Post.OfType<Offer>().AsEnumerable(); } }
+        public IEnumerable<Comment> Comment { get { return Post.OfType<Comment>().AsEnumerable(); } }
+        public IEnumerable<Review> Review { get { return Post.OfType<Review>().AsEnumerable(); } }
+        public IEnumerable<Application> Application { get { return Post.OfType<Application>().AsEnumerable(); } }
+        public IEnumerable<Tender> Tender { get { return Post.OfType<Tender>().AsEnumerable(); } }
+        public IEnumerable<Offer> Offer { get { return Post.OfType<Offer>().AsEnumerable(); } }
 
         public SubRepository<SubGroup> subGroupSR;
         
