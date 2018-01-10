@@ -12,9 +12,10 @@ using TenderApp.Models.BusinessModels;
 namespace TenderApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180110143512_newMigr")]
+    partial class newMigr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +200,7 @@ namespace TenderApp.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Category", b =>
@@ -219,7 +220,7 @@ namespace TenderApp.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Post", b =>
@@ -242,7 +243,7 @@ namespace TenderApp.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Post_Meta", b =>
@@ -278,13 +279,13 @@ namespace TenderApp.Migrations
 
                     b.Property<int?>("SubGroupId");
 
-                    b.Property<int>("Type");
+                    b.Property<string>("Type");
 
                     b.HasKey("SubId");
 
                     b.HasIndex("SubGroupId");
 
-                    b.ToTable("Sub");
+                    b.ToTable("Subs");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.SubGroup", b =>
@@ -292,7 +293,7 @@ namespace TenderApp.Migrations
                     b.Property<int>("SubGroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ForType");
+                    b.Property<string>("ForType");
 
                     b.Property<string>("Name");
 
@@ -300,7 +301,7 @@ namespace TenderApp.Migrations
 
                     b.HasKey("SubGroupId");
 
-                    b.ToTable("SubGroup");
+                    b.ToTable("SubGroups");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>
