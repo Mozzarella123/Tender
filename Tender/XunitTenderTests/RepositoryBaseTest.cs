@@ -11,7 +11,7 @@ using TenderApp.Services;
 
 namespace XunitTenderTests
 {
-    class RepositoryBaseTest : IClassFixture<TestFixture<Startup>>
+    public class RepositoryBaseTest : IClassFixture<TestFixture<Startup>>
     {
         
         [Fact]

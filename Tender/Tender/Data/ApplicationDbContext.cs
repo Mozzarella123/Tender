@@ -15,7 +15,6 @@ namespace TenderApp.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            subGroupSR = new SubRepository<Models.BusinessModels.SubGroup>(this);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -64,7 +63,6 @@ namespace TenderApp.Data
         public IEnumerable<Tender> Tender { get { return Post.OfType<Tender>().AsEnumerable(); } }
         public IEnumerable<Offer> Offer { get { return Post.OfType<Offer>().AsEnumerable(); } }
 
-        public SubRepository<SubGroup> subGroupSR;
         
         public void Save()
         {
