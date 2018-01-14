@@ -28,7 +28,7 @@ namespace TenderApp.Services
     }
 
     public delegate void action<T>(T entity);
-    public interface IRepository<T>
+    public interface IRepository<T> where T :class
     {
         void Delete(T obj);
         void Create(T obj);

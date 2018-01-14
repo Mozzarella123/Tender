@@ -17,6 +17,11 @@ namespace TenderApp.Data
         {
         }
 
+        public ApplicationDbContext() : base()
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
                 base.OnModelCreating(builder);
