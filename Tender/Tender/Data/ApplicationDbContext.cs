@@ -10,7 +10,7 @@ using TenderApp.Services;
 
 namespace TenderApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IRepository
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>,IEFContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -68,7 +68,14 @@ namespace TenderApp.Data
         public IEnumerable<Tender> Tender { get { return Post.OfType<Tender>().AsEnumerable(); } }
         public IEnumerable<Offer> Offer { get { return Post.OfType<Offer>().AsEnumerable(); } }
 
-        
+        IEnumerable<Post> IContext.Post { get => Post; }
+        IEnumerable<Attachment> IContext.Attachment { get => Attachment; }
+        IEnumerable<User_Meta> IContext.User_Meta { get => User_Meta; }
+        IEnumerable<Post_Meta> IContext.Post_Meta { get => Post_Meta; }
+        IEnumerable<Category> IContext.Category { get => Category; }
+        IEnumerable<SubGroup> IContext.SubGroup { get => SubGroup; }
+        IEnumerable<Sub> IContext.Sub { get => Sub; }
+
         public void Save()
         {
             SaveChanges();

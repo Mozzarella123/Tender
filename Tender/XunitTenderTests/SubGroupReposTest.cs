@@ -31,7 +31,7 @@ namespace XunitTenderTests
 
             //act
 
-            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object,ref SubGroupList);
+            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
             repositoryBase.Create(newSubGroup);
 
             //assert
@@ -53,7 +53,7 @@ namespace XunitTenderTests
 
             //act
 
-            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object,ref SubGroupList);
+            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
             repositoryBase.Delete(newSubGroup);
 
             //assert
@@ -75,7 +75,7 @@ namespace XunitTenderTests
 
             //act
 
-            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object,ref SubGroupList);
+            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
             repositoryBase.Update(newSubGroup);
 
             //assert
@@ -114,7 +114,7 @@ namespace XunitTenderTests
 
             //act
 
-            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object,ref SubGroupList);
+            SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
             repositoryBase.Update(newSubGroup);
 
             //assert

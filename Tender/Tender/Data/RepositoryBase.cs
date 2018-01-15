@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using TenderApp.Services;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace TenderApp.Data
 {
     public class RepositoryBase<T> : IRepository<T> where T:class
     {
-        ApplicationDbContext context;
-        public RepositoryBase(ApplicationDbContext c,ref List<T> AllCollection)
+        IContext context;
+        public RepositoryBase(IEFContext c,DbSet<T> set)
         {
             context = c;
-            this.collection = AllCollection;
+            this.collection = set;
         }
 
         int GetItemId(T obj)
@@ -25,26 +26,62 @@ namespace TenderApp.Data
         }
         public void Create(T obj)
         {
-            collection.Add(obj);
-            context.Save();
+            
         }
         public void Delete(T obj)
         {
-            collection.Remove(obj);
-            context.Save();
+            
         }
         public void Update(T obj)
         {
-            T temp = collection.FirstOrDefault(t => GetItemId(t) == GetItemId(obj));
-            if (temp == null)
-                Create(obj);
-            else
-            {
-                Delete(temp);
-                Create(obj);
-            }
+            collection.Update(obj);
             context.Save();
         }
-        public ICollection<T> collection { get; set; }
+
+        public void Add(T item)
+        {
+            collection.Add(item);
+            context.Save();
+        }
+
+        public void Clear()
+        {
+            foreach (T elem in collection)
+                collection.Remove(elem);
+            context.Save();
+        }
+
+        public bool Contains(T item)
+        {
+            return collection.Contains(item);
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            collection.Remove(item);
+            context.Save();
+            return true;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DbSet<T> collection { get; set; }
+
+        public int Count => collection.Count();
+
+        public bool IsReadOnly => false;
     }
 }
