@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TenderApp.Data
 {
-    public class RepositoryBase<T> : IRepository<T> where T:class
+    public class RepositoryBase<T> : IRepository<T>,IEnumerator where T:class
     {
         IContext context;
         public RepositoryBase(IEFContext c,DbSet<T> set)
@@ -24,14 +24,7 @@ namespace TenderApp.Data
                 ret = (int?)obj.GetType().GetProperty("Id").GetValue(obj, null);
             return (int)ret;
         }
-        public void Create(T obj)
-        {
-            
-        }
-        public void Delete(T obj)
-        {
-            
-        }
+        
         public void Update(T obj)
         {
             collection.Update(obj);
@@ -70,18 +63,88 @@ namespace TenderApp.Data
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new ParametrisedEnumerator<T>(collection.OfType<T>());
         }
+
+        int position = -1;
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this as IEnumerator;
         }
+
+        public bool MoveNext()
+        {
+            if (position < collection.Count() - 1)
+            {
+                position++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
+
+        
 
         public DbSet<T> collection { get; set; }
 
         public int Count => collection.Count();
 
         public bool IsReadOnly => false;
+
+        public object Current
+        { get
+            {
+                if (position >= 0)
+                    return collection.ElementAt(position);
+                else
+                    return null;
+            }
+        }
+    }
+
+    public class ParametrisedEnumerator<T> : IEnumerator<T>
+    {
+        public ParametrisedEnumerator(IEnumerable<T> collection)
+        {
+            this.collection = collection;
+        }
+
+        IEnumerable<T> collection;
+        int position = -1;
+
+        public T Current => collection.ElementAt(position);
+
+        object IEnumerator.Current => collection.ElementAt(position);
+
+        public void Dispose()
+        {
+            collection = null;
+        }
+
+        public bool MoveNext()
+        {
+            if (position < collection.Count() - 1)
+            {
+                position++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
     }
 }

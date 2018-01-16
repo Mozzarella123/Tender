@@ -27,8 +27,6 @@ namespace TenderApp.Services
     
     public interface IRepository<T>:ICollection<T>
     {
-        void Delete(T obj);
-        void Create(T obj);
-        void Update(T obj);
+
     }
 }

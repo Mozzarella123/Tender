@@ -56,7 +56,8 @@ namespace TenderApp
             });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IContext, IEFContext>();
+            //services.AddTransient<IContext, IEFContext>();
+            services.AddTransient<IContext, ApplicationDbContext>();
             services.AddTransient<IEFContext, ApplicationDbContext>();
             services.AddTransient<IRepository, GlobalRepository>();
             services.AddTransient<IRepository<SubGroup>, SubGroupRepos>();
