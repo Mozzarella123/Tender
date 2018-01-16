@@ -1,0 +1,19 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var controller = ViewContext.RouteData.Values["Controller"];
+    var action = ViewContext.RouteData.Values["Action"];
+}
+@model Dictionary<string,string>
+<ul class="nav flex-column nav-pills">
+    @foreach (string key in Model.Keys)
+    {
+        var curcontroller = Model[key].Split("/")[0];
+        var curaction = Model[key].Split("/")[1];
+        var cl = (string.Equals(controller, curcontroller) && string.Equals(action, curaction)) ? "nav-link active" : "nav-link";
+        <li class="nav-item">
+            @Html.ActionLink(key, curaction, curcontroller, null, null, null, null, new { @class = cl })
+        </li>
+    }
+</ul>

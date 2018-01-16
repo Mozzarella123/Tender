@@ -3,7 +3,8 @@
 
 @{
     ViewData["Title"] = "ManageSubs";
-    }
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
 
 @foreach (SubGroup s in Model)
 {
@@ -12,7 +13,7 @@
             @s.Name
         </a>
         <span>
-            @{ 
+            @{
                 string text = s.ForType.ToString();
             }
             @text
@@ -28,35 +29,35 @@
     <div class="collapse" id="@s.Name">
         <div class="card card-block">
             <table>
-                @foreach(Sub sub in s.Subs.OrderBy(S=>-S.Priority))
+                @foreach (Sub sub in s.Subs.OrderBy(S => -S.Priority))
                 {
                     <tr>
                         <td>
                             @sub.Name
                         </td>
                         <td>
-                            @{ 
+                            @{
                                 string Text = "";
                                 switch (sub.Type)
                                 {
-                                    case 0:Text = "TextBox";break;
-                                    case 1:Text = "TextArea";break;
-                                    case 2:Text = "Image";break;
+                                    case 0: Text = "TextBox"; break;
+                                    case 1: Text = "TextArea"; break;
+                                    case 2: Text = "Image"; break;
                                 }
                                 Html.DisplayText(Text);
-                            }   
+                            }
                         </td>
                         <td>
                             @Html.ActionLink("Удалить поле", "DeleteSub", "Admin", sub, new { @class = "btn btn-default" })
                             @Html.ActionLink("Редактировать поле", "EditSub", "Admin", sub, new { @class = "btn btn-default" })
                         </td>
                     </tr>
-                }
+                                }
             </table>
             @Html.ActionLink("Добавить поле", "CreateSubFor", "Admin", s, new { @class = "btn btn-block btn-default btn-lg" })
         </div>
     </div>
-}
+                                }
 
 <button class="btn btn-primary" type="button" id="SubGroupCreaterButton">Добавить группу полей</button>
 

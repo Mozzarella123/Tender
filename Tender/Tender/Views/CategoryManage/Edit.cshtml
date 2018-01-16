@@ -1,0 +1,27 @@
+﻿@using TenderApp.Models.AdminViewModels
+@using TenderApp.Models.BusinessModels
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+    IEnumerable<Category> categories = ViewBag.Categories;
+}
+
+<h2>Edit</h2>
+@model CategoryViewModel
+<form asp-action="Edit">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" value="@Model.Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <label asp-for="Description"></label>
+    <textarea value="@Model.Description" asp-for="Description" class="form-control"></textarea>
+    <select asp-for="ParentId" class="custom-select">
+        <option value="@null">Нет</option>
+        @foreach (var cat in categories)
+        {
+           
+            string selected = (cat.Parent!=null&&cat.Parent.CategoryId == Model.ParentId) ? "selected" : "";
+            <option value="@cat.CategoryId" class="@selected">@cat.Name</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Редактировать</button>
+</form>

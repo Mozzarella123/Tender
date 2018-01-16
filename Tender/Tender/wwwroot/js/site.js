@@ -4,13 +4,15 @@ $(function () {
     $('.needconfirm').click(function (e) {
         debugger;
         e.preventDefault();
-        var id = $(this).closest('form').attr('id');
-        var sucsess = $(this).data('sucsess');
+        $(this).addClass('inconfirm');
         $('#confirmationModal').modal('show');
-        $('#confirmationModal .confirm-modal').attr('id', id);
     });
     $('.confirm-modal').click(function () {
-        $('#' + $(this).attr('id')).submit();
+        var elem = $('.needconfirm.inconfirm');
+        if (elem.is('button'))
+            elem.closest('form').submit();
+        else
+            location.href = elem.attr('href');
     });
     //$('#register-new').click(
     //    function () {
@@ -66,7 +68,7 @@ $('#SubGroupCreaterButton').bind('click', function () {
             alert('Error');
         }
     });
-    
+
 });
 
 

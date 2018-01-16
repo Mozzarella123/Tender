@@ -32,7 +32,7 @@ namespace XunitTenderTests
             //act
 
             SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
-            repositoryBase.Create(newSubGroup);
+            //repositoryBase.Create(newSubGroup);
 
             //assert
             Assert.Contains(newSubGroup, repositoryBase.collection);
@@ -54,7 +54,7 @@ namespace XunitTenderTests
             //act
 
             SubGroupRepos repositoryBase = new SubGroupRepos(mock.Object);
-            repositoryBase.Delete(newSubGroup);
+            //repositoryBase.Delete(newSubGroup);
 
             //assert
             Assert.DoesNotContain(newSubGroup, SubGroupList);
