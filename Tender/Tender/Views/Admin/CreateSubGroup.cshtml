@@ -7,8 +7,14 @@
 @{
     Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
 }
+
+@using (Html.BeginForm("CreateSubGroup","Admin"))
+
 @using (Html.BeginForm())
 {
-    @Html.EditorForModel()
+    @Html.HiddenFor(m => m.SubGroupId);
+    @Html.TextBoxFor(m => m.Name);
+    @Html.GetEnumSelectList(Model.ForType.GetType());
+    @Html.TextBoxFor(m => m.Priority);
     <input type = "submit" value = "Сохранить" />
 }

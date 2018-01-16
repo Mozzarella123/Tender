@@ -12,8 +12,8 @@ namespace TenderApp.Models.BusinessModels
         [HiddenInput(DisplayValue = false)]
         public int SubId { get; set; }
         public string Name { get; set; }
-        public int Type { get; set; }
+        public SubType Type { get; set; }
         public int Priority { get; set; }
-        //public enum SubType { TextBox,TextArea,Image};
+        public enum SubType { TextBox,TextArea,Image};
     }
 }

@@ -51,7 +51,12 @@ namespace TenderApp.Data
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            int index = arrayIndex;
+            foreach(T obj in collection)
+            {
+                array[index] = obj;
+                index++;
+            }
         }
 
         public bool Remove(T item)
