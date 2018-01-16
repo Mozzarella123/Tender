@@ -9,11 +9,11 @@ using System;
 using TenderApp.Data;
 using TenderApp.Models.BusinessModels;
 
-namespace TenderApp.Data.Migrations
+namespace TenderApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180106160013_FixSub")]
-    partial class FixSub
+    [Migration("20180110143512_newMigr")]
+    partial class newMigr
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,7 +279,7 @@ namespace TenderApp.Data.Migrations
 
                     b.Property<int?>("SubGroupId");
 
-                    b.Property<int>("Type");
+                    b.Property<string>("Type");
 
                     b.HasKey("SubId");
 
@@ -293,7 +293,7 @@ namespace TenderApp.Data.Migrations
                     b.Property<int>("SubGroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ForType");
+                    b.Property<string>("ForType");
 
                     b.Property<string>("Name");
 

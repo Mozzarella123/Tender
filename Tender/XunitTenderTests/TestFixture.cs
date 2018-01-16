@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using System.IO;
 
 namespace XunitTenderTests
 {
@@ -14,7 +15,7 @@ namespace XunitTenderTests
         public TestFixture()
         {
             //$"..\\..\\..\\..\\..\\src\\Blog.Turnmeup.API\\"
-            string directory = "E:\\Repositories\\Tender\\Tender\\Tender";
+            string directory = Directory.GetCurrentDirectory();
             var builder = new WebHostBuilder()
                 .UseContentRoot(directory)
                 .UseStartup<TStartup>();

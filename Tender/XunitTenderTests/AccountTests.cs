@@ -38,7 +38,7 @@ namespace XunitTenderTests
                 var config = new ConfigurationBuilder().Build();
                 var services = new ServiceCollection()
                     .AddSingleton<IConfiguration>(config)
-                    .AddTransient<IRepository, ApplicationDbContext>();
+                    .AddTransient<IRepository, GlobalRepository>();
                 services.AddIdentity<ApplicationUser, IdentityRole>();
                 services.AddLogging();
                 var store = new Mock<IUserStore<ApplicationUser>>();

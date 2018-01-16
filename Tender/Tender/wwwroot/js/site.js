@@ -40,7 +40,8 @@ $(function () {
 });
 
 ////////////////////////////////////////////////////////////////// вынести в файл для менеджера мета полей ///////////////////////////////////////////////////////
-$('#SubGroupCreaterButton').bind('click',function () {
+
+$('#SubGroupCreaterButton').bind('click', function () {
     jQuery.ajax({
         url: '/Admin/CreateSubGroup',
         dataType: 'html',

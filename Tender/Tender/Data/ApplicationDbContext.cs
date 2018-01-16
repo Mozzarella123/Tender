@@ -10,11 +10,16 @@ using TenderApp.Services;
 
 namespace TenderApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IRepository
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>,IEFContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        public ApplicationDbContext() : base()
+        {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -28,16 +33,16 @@ namespace TenderApp.Data
         public void SaveSubGroup(SubGroup group)
         {
             if (group.SubGroupId != -1)
-                SubGroups.Add(group);
+                SubGroup.Add(group);
             else
             {
-                var temp = SubGroups.FirstOrDefault(s => s.SubGroupId == group.SubGroupId);
+                var temp = SubGroup.FirstOrDefault(s => s.SubGroupId == group.SubGroupId);
                 if (temp != null)
                 {
                     temp = group;
                 }
                 else
-                    SubGroups.Add(group);
+                    SubGroup.Add(group);
             }
             SaveChanges();
         }
@@ -46,30 +51,43 @@ namespace TenderApp.Data
         {
             if (group != null)//Чтобы ничего не сломалось, необходимо проверять чтобы обьект не был null
             {
-                SubGroups.Remove(group);
+                SubGroup.Remove(group);
                 SaveChanges();
             }
         }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<Attachment> Attachment { get; set; }
         public DbSet<User_Meta> User_Meta { get; set; }
         public DbSet<Post_Meta> Post_Meta { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<SubGroup> SubGroups { get; set; }
-        public DbSet<Sub> Subs { get; set; }
-        public IEnumerable<Comment> Comments { get { return Posts.OfType<Comment>().AsEnumerable(); } }
-        public IEnumerable<Review> Reviews { get { return Posts.OfType<Review>().AsEnumerable(); } }
-        public IEnumerable<Application> Applications { get { return Posts.OfType<Application>().AsEnumerable(); } }
-        public IEnumerable<Tender> Tenders { get { return Posts.OfType<Tender>().AsEnumerable(); } }
-        public IEnumerable<Offer> Offers { get { return Posts.OfType<Offer>().AsEnumerable(); } }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<SubGroup> SubGroup { get; set; }
+        public DbSet<Sub> Sub { get; set; }
+        public IEnumerable<Comment> Comment { get { return Post.OfType<Comment>().AsEnumerable(); } }
+        public IEnumerable<Review> Review { get { return Post.OfType<Review>().AsEnumerable(); } }
+        public IEnumerable<Application> Application { get { return Post.OfType<Application>().AsEnumerable(); } }
+        public IEnumerable<Tender> Tender { get { return Post.OfType<Tender>().AsEnumerable(); } }
+        public IEnumerable<Offer> Offer { get { return Post.OfType<Offer>().AsEnumerable(); } }
 
-        IEnumerable<SubGroup> IRepository.SubGroups
+        IEnumerable<Post> IContext.Post { get => Post; }
+        IEnumerable<Attachment> IContext.Attachment { get => Attachment; }
+        IEnumerable<User_Meta> IContext.User_Meta { get => User_Meta; }
+        IEnumerable<Post_Meta> IContext.Post_Meta { get => Post_Meta; }
+        IEnumerable<Category> IContext.Category { get => Category; }
+        IEnumerable<SubGroup> IContext.SubGroup { get => SubGroup; }
+        IEnumerable<Sub> IContext.Sub { get => Sub; }
+
+        public void Save()
         {
-            get { if (SubGroups == null)
-                    return new List<SubGroup>();
-                else
-                    return SubGroups.AsEnumerable();
-            }
+            SaveChanges();
         }
+
+        //IEnumerable<SubGroup> IRepository.SubGroups
+        //{
+        //    get { if (SubGroup == null)
+        //            return new List<SubGroup>();
+        //        else
+        //            return SubGroup.AsEnumerable();
+        //    }
+        //}
     }
 }

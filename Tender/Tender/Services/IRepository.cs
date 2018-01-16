@@ -10,15 +10,22 @@ namespace TenderApp.Services
 {
     public interface IRepository
     {
-
-        DbSet<Sub> Subs { get; set; }
-        IEnumerable<Comment> Comments { get; }
-        IEnumerable<Review> Reviews { get; }
-        IEnumerable<Application> Applications { get; }
-        IEnumerable<Tender> Tenders { get; }
-        IEnumerable<Offer> Offers { get; }
-        IEnumerable<SubGroup> SubGroups { get; }
-        void SaveSubGroup(SubGroup group);
-        void DeleteSubGroup(SubGroup group);
+        IRepository<Post> Post { get; set; }
+        IRepository<Attachment> Attachment { get; set; }
+        IRepository<User_Meta> User_Meta { get; set; }
+        IRepository<Post_Meta> Post_Meta { get; set; }
+        IRepository<Category> Category { get; set; }
+        IRepository<SubGroup> SubGroup { get; set; }
+        IRepository<Sub> Sub { get; set; }
+        IEnumerable<Comment> Comment { get; }
+        IEnumerable<Review> Review { get; }
+        IEnumerable<Application> Application { get; }
+        IEnumerable<Tender> Tender { get; }
+        IEnumerable<Offer> Offer { get; }
+        void Save();
+    }
+    
+    public interface IRepository<T>:ICollection<T>
+    {
     }
 }

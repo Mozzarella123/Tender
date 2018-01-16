@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using TenderApp.Models.BusinessModels;
 using Microsoft.Extensions.Logging;
 using TenderApp.Models.AccountViewModels;
-
+using TenderApp.Data;
 
 namespace TenderApp.Controllers
 {
@@ -119,7 +119,7 @@ namespace TenderApp.Controllers
         [HttpGet]
         public ViewResult ManageSubs()
         {
-            return View(repository.SubGroups);
+            return View(repository.SubGroup);
         }
 
         [HttpGet]
@@ -131,13 +131,15 @@ namespace TenderApp.Controllers
         [HttpPost]
         public ActionResult CreateSubGroup(SubGroup group)
         {
-            repository.SaveSubGroup(group);
+            repository.SubGroup.Add(group);
             return Redirect("ManageSubs");
         }
         [HttpPost]
         public ActionResult DeleteSubGroup(int groupId)
         {
-            repository.DeleteSubGroup(repository.SubGroups.FirstOrDefault(s => s.SubGroupId == groupId));
+            SubGroup current = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == groupId);
+            if (current != null)
+                repository.SubGroup.Remove(current);
             return Redirect("ManageSubs");
         }
         [AllowAnonymous]

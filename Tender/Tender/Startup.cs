@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TenderApp.Data;
 using TenderApp.Models;
 using TenderApp.Services;
+using TenderApp.Models.BusinessModels;
+using TenderApp.Data.Repositories;
 
 namespace TenderApp
 {
@@ -52,10 +54,14 @@ namespace TenderApp
             {
                 
             });
-           
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IRepository, ApplicationDbContext>();
+            //services.AddTransient<IContext, IEFContext>();
+            services.AddTransient<IContext, ApplicationDbContext>();
+            services.AddTransient<IEFContext, ApplicationDbContext>();
+            services.AddTransient<IRepository, GlobalRepository>();
+            services.AddTransient<IRepository<SubGroup>, SubGroupRepos>();
+            //services.AddTransient<IRepository, ApplicationDbContext>();
             services.AddMvc();
         }
 
