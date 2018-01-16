@@ -18,7 +18,7 @@ namespace TenderApp.Models.BusinessModels
         public string Name { get; set; }
         public Type ForType { get; set; }
         public int Priority { get; set; }
-        public IEnumerable<Sub> Subs { get; set; }
+        public List<Sub> Subs { get; set; }
         public enum Type { Review,Application,Page,Organization,Tender,Offer,Comment,Post }
     }
 }

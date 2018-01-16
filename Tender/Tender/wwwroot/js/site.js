@@ -42,31 +42,55 @@ $(function () {
 ////////////////////////////////////////////////////////////////// вынести в файл для менеджера мета полей ///////////////////////////////////////////////////////
 
 $('#SubGroupCreaterButton').bind('click', function () {
-    jQuery.ajax({
-        url: '/Admin/CreateSubGroup',
-        dataType: 'html',
-        success: function (data) {
-            jQuery('#SubGroupCreater').append(data);
-            var button = document.getElementById('SubGroupCreaterButton');
-            $('#SubGroupCreaterButton').unbind('click');
-            button.innerText = 'Скрыть';
-            $('#SubGroupCreaterButton').click(function () {
-                if (button.innerText == 'Скрыть')
-                    button.innerText = 'Добавить группу полей';
-                else
-                    button.innerText = 'Скрыть';
-            });
-            button.setAttribute('data-toggle', 'collapse');
-            button.setAttribute('data-target', '#SubGroupCreater');
-            button.setAttribute('aria-expanded', 'false');
-            button.setAttribute('aria-controls', 'SubGroupCreater');
-            $('#SubGroupCreater').collapse().show();
-        },
-        error: function () {
-            alert('Error');
-        }
-    });
+    var button = document.getElementById('SubGroupCreaterButton');
+    if (button.innerText == 'Скрыть')
+        button.innerText = 'Добавить группу полей';
+    else
+        button.innerText = 'Скрыть';
+        //jQuery.ajax({
+        //url: '/Admin/CreateSubGroup',
+        //dataType: 'html',
+        //success: function (data) {
+        //    jQuery('#SubGroupCreater').append(data);
+        //    var button = document.getElementById('SubGroupCreaterButton');
+        //    $('#SubGroupCreaterButton').unbind('click');
+        //    button.innerText = 'Скрыть';
+        //    $('#SubGroupCreaterButton').click(function () {
+        //        if (button.innerText == 'Скрыть')
+        //            button.innerText = 'Добавить группу полей';
+        //        else
+        //            button.innerText = 'Скрыть';
+        //    });
+        //    button.setAttribute('data-toggle', 'collapse');
+        //    button.setAttribute('data-target', '#SubGroupCreater');
+        //    button.setAttribute('aria-expanded', 'false');
+        //    button.setAttribute('aria-controls', 'SubGroupCreater');
+        //    $('#SubGroupCreater').collapse().show();
+        //},
+        //error: function () {
+        //    alert('Error');
+        //}
+    //});
     
+});
+
+$('.CreateSubButton').click(function (e) {
+    var button = document.getElementsByClassName('CreateSubButton');
+    if (button.innerText == 'Скрыть')
+    {
+        button.innerText = 'Добавить поле';
+        
+
+        var Value = $(this).closest(".SubGroupIdHidden").attr('value');
+        $('#SubParentId').attr('value',Value);
+    }
+    else
+        button.innerText = 'Скрыть';
+
+    $('#SubId').attr('value', 0);
+    $('#Subname').attr('value', 0);
+    $('#SubType').attr('value', '');
+    $('#SubPriority').attr('value', 0);
 });
 
 

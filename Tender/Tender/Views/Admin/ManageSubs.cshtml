@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach (SubGroup s in Model)
+@foreach (SubGroup s in Model.OrderBy(S => -S.Priority))
 {
     <div>
         <a class="btn btn-primary" data-toggle="collapse" href="#@s.Name" aria-expanded="false" aria-controls="collapseExample">
@@ -22,14 +22,12 @@
             <input type="hidden" name="groupId" value="@s.SubGroupId" />
             <input type="submit" class="btn btn-primary" value="Удалить группу полей">
         </form>
-        @*}*@
-        @*@Html.ActionLink("Удалить группу полей", "DeleteSubGroup", "Admin", s.SubGroupId, new { @class = "btn btn-primary" })*@
     </div>
 
     <div class="collapse" id="@s.Name">
         <div class="card card-block">
             <table>
-                @foreach(Sub sub in s.Subs.OrderBy(S=>-S.Priority))
+                @foreach(Sub sub in s.Subs.OrderBy(S=> -S.Priority))
                 {
                     <tr>
                         <td>
@@ -38,7 +36,7 @@
                         <td>
                             @{ 
                                 string Text = "";
-                                switch (sub.Type)
+                                switch ((int)sub.Type)
                                 {
                                     case 0:Text = "TextBox";break;
                                     case 1:Text = "TextArea";break;
@@ -54,14 +52,20 @@
                     </tr>
                 }
             </table>
-            @Html.ActionLink("Добавить поле", "CreateSubFor", "Admin", s, new { @class = "btn btn-block btn-default btn-lg" })
+            @*@Html.ActionLink("Добавить поле", "CreateSubFor", "Admin", s, new { @class = "btn btn-block btn-default btn-lg" })*@
+            @Html.Hidden("SubGroupIdHidden", s.SubGroupId,new { @class="SubGroupIdHidden" })
+            <button class="btn btn-block btn-default btn-lg CreateSubButton" type="button" data-toggle="collapse" data-target="#SubCreater" aria-expanded="false" aria-controls="SubCreater">Добавить поле</button>
         </div>
     </div>
 }
 
-<button class="btn btn-primary" type="button" id="SubGroupCreaterButton">Добавить группу полей</button>
+<button class="btn btn-primary" type="button" id="SubGroupCreaterButton" data-toggle="collapse" data-target="#SubGroupCreater" aria-expanded="false" aria-controls="SubGroupCreater">Добавить группу полей</button>
 
 <div id="SubGroupCreater" class="collapse">
+    @Html.Partial("CreateSubGroup",new SubGroup())
+</div>
 
+<div id="SubCreater" class="collapse">
+    @Html.Partial("CreateSub",new Sub())
 </div>
 

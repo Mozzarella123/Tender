@@ -128,6 +128,24 @@ namespace TenderApp.Controllers
             return PartialView(); 
         }
 
+        [HttpGet]
+        public PartialViewResult CreateSub()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult CreateSub(int Parent, Sub sub)
+        {
+            SubGroup group = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == Parent);
+            if (group != null)
+            {
+                group.Subs.Add(sub);
+                repository.Save();
+            }
+            return Redirect("ManageSubs");
+        }
+
         [HttpPost]
         public ActionResult CreateSubGroup(SubGroup group)
         {
