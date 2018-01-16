@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
 }
 
 @Html.Partial("_UsersPartial", Model as IQueryable<ApplicationUser>)

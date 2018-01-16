@@ -127,7 +127,6 @@ namespace TenderApp.Controllers
         {
             return PartialView(); 
         }
-
         [HttpGet]
         public PartialViewResult CreateSub()
         {
@@ -144,22 +143,7 @@ namespace TenderApp.Controllers
                 repository.Save();
             }
             return Redirect("ManageSubs");
-        }
-
-        [HttpPost]
-        public ActionResult CreateSubGroup(SubGroup group)
-        {
-            repository.SubGroup.Add(group);
-            return Redirect("ManageSubs");
-        }
-        [HttpPost]
-        public ActionResult DeleteSubGroup(int groupId)
-        {
-            SubGroup current = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == groupId);
-            if (current != null)
-                repository.SubGroup.Remove(current);
-            return Redirect("ManageSubs");
-        }
+        }       
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser(RegisterViewModel model)

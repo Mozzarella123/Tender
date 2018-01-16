@@ -61,6 +61,8 @@ namespace TenderApp
             services.AddTransient<IEFContext, ApplicationDbContext>();
             services.AddTransient<IRepository, GlobalRepository>();
             services.AddTransient<IRepository<SubGroup>, SubGroupRepos>();
+            services.AddTransient<IRepository<Category>, CategoryRepos>();
+
             //services.AddTransient<IRepository, ApplicationDbContext>();
             services.AddMvc();
         }
