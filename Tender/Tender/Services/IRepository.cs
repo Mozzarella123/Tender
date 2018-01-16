@@ -27,6 +27,5 @@ namespace TenderApp.Services
     
     public interface IRepository<T>:ICollection<T>
     {
-
     }
 }
