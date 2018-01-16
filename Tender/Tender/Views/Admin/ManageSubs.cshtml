@@ -3,8 +3,7 @@
 
 @{
     ViewData["Title"] = "ManageSubs";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    }
 
 @foreach (SubGroup s in Model.OrderBy(S => -S.Priority))
 {
