@@ -5,16 +5,16 @@
 @using TenderApp.Models.BusinessModels;
 @model Sub
 
-    @using (Html.BeginForm("CreateSub", "Admin"))
+    @using (Html.BeginForm(Model==null?"CreateSub":"EditSubPost", "Sub"))
     {
-        @Html.Hidden("Parent", -1,new { id="SubParentId" })
+        @Html.Hidden("Parent", Model != null ? Model.Group.SubGroupId : -1,new { id="SubParentId" })
         @Html.HiddenFor(m => m.SubId,new { id="SubId" });
         @Html.TextBoxFor(m => m.Name, new { id = "SubName" });
         @*@Html.GetEnumSelectList(Model.Type.GetType());*@
         <select name="Type" id="SubType">
-            <option value="0">TextBox</option>
-            <option value="1">TextArea</option>
-            <option value="2">Image</option>
+            <option value="0" class="@Model?.Type==Sub.SubType.TextBox?selected:;">TextBox</option>
+            <option value="1" class="@Model?.Type==Sub.SubType.TextArea?selected:;">TextArea</option>
+            <option value="2" class="@Model?.Type==Sub.SubType.Image?selected:;">Image</option>
         </select>
         @Html.TextBoxFor(m => m.Priority, new { id = "SubPriority" });
         <input type="submit" value="Сохранить" />
