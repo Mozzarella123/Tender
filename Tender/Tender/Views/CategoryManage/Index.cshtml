@@ -1,45 +1,26 @@
 ﻿@using TenderApp.Models.BusinessModels;
+@using TenderApp.App_Code;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+    TempData["CatTab"] = "";
+    ViewBag.RenderedCats = new List<Category>();
 }
 @model IEnumerable<Category>
 <h2>Управление категориями @Html.ActionLink("Добавить", "Add", "CategoryManage", null, null, null, null, new { @class = "btn btn-primary" })</h2>
-@if (Model.Count() > 0)
-{
-    <table class="table table-striped table-sm table-bordered text-center">
-        <thead>
-            <tr class="text-center">
-                <th>Название</th>
-                <th colspan="2">Описание</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cat in Model)
-            {
-                string tire = "";
-                if (cat.Parent != null)
-                {
-                    tire += "—";
-                }
-                <tr>
-                    <td>@tire @cat.Name</td>
-                    <td>@cat.Description</td>
-                   
-                    <td>
-                        <form asp-action="Edit" asp-route-Id="@cat.CategoryId" method="get">
-                            <button class="btn btn-primary">Редактировать</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="Delete" id="delete" asp-route-Id="@cat.CategoryId">
-                            <button class="btn btn-danger needconfirm">Удалить</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
 
-}
+@*@Html.Cat(Model)*@
+<table class="table table-striped table-sm table-bordered text-center">
+    <thead>
+        <tr class="text-center">
+            <th>Название</th>
+            <th colspan="2">Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.Partial("_CategoriesList", Model)
+    </tbody>
+</table>
+
+
 @Html.Partial("_ConfrirmationMessagePartial", new Dictionary<string, string>() { { "Message", "Вы действительно хотите удалить категорию? Действие необратимо." }, { "ButtonText", "Удалить" } })

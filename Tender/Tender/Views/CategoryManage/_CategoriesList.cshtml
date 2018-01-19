@@ -1,0 +1,38 @@
+﻿@using TenderApp.Models.BusinessModels
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<Category> reneredcats = ViewBag.RenderedCats as List<Category>;
+    string tab = TempData["CatTab"].ToString();
+}
+@model IEnumerable<Category>
+@foreach (var cat in Model)
+{
+    @if (!reneredcats.Contains(cat))
+    {
+        <tr>
+            <td class="text-left">@tab @cat.Name</td>
+            <td>@cat.Description</td>
+
+            <td>
+                <form asp-action="Edit" asp-route-Id="@cat.CategoryId" method="get">
+                    <button class="btn btn-primary">Редактировать</button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="Delete" id="delete" asp-route-Id="@cat.CategoryId">
+                    <button class="btn btn-danger needconfirm">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        
+        reneredcats.Add(cat);
+        ViewBag.RenderedCats = reneredcats;
+        @if (cat.Children != null && cat.Children.Count > 0)
+        {
+            TempData["CatTab"] = tab + "--";
+            Html.RenderPartial("_CategoriesList", cat.Children);
+        }
+    }
+    }
