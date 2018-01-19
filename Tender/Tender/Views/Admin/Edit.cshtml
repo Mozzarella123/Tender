@@ -2,8 +2,9 @@
 @{
     ViewData["Title"] = "Edit";
     ViewBag.Action = "Edit";
-
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
 }
+
 @model IndexViewModel
 <h2>Редактирование пользователя</h2>
 @Html.Partial("AccountPartials/_ProfileAccountPartial", Model)

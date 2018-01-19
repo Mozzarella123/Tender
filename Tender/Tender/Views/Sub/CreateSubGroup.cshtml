@@ -4,8 +4,13 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
 
 @using (Html.BeginForm("CreateSubGroup","Admin"))
+
+@using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.SubGroupId);
     @Html.TextBoxFor(m => m.Name);

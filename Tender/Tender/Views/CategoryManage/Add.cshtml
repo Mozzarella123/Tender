@@ -1,0 +1,25 @@
+﻿@using TenderApp.Models.AdminViewModels
+@using TenderApp.Models.BusinessModels
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+    IEnumerable<Category> categories = ViewBag.Categories as IEnumerable<Category>;
+}
+@model CategoryViewModel
+<h2>Add</h2>
+<form asp-action="Add">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <label asp-for="Description" ></label>
+    <textarea asp-for="Description" class="form-control"></textarea>
+    <select asp-for="ParentId" class="custom-select">
+        <option value="@null">Нет</option>
+        @foreach(var cat in categories)
+        {
+            <option value="@cat.CategoryId">@cat.Name</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Добавить</button>
+</form>

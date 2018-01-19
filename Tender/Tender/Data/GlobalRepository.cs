@@ -29,7 +29,7 @@ namespace TenderApp.Data
         public IEnumerable<Application> Application { get { return Post.OfType<Application>().AsEnumerable(); } }
         public IEnumerable<Tender> Tender { get { return Post.OfType<Tender>().AsEnumerable(); } }
         public IEnumerable<Offer> Offer { get { return Post.OfType<Offer>().AsEnumerable(); } }
-
+        
         public void Save()
         {
             Context.Save();
