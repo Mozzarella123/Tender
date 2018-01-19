@@ -18,6 +18,7 @@ namespace TenderApp.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Categories = repository;
             return View(repository);
         }
         [HttpGet]
@@ -29,6 +30,8 @@ namespace TenderApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CategoryViewModel category)
         {
+            ViewBag.Categories = repository;
+
             if (ModelState.IsValid)
             {
                 Category parent = repository.FirstOrDefault(x => x.CategoryId == category.ParentId);
@@ -47,8 +50,8 @@ namespace TenderApp.Controllers
         [HttpGet]
         public IActionResult Edit(int Id)
         {
-            Category cat = repository.FirstOrDefault(x => x.CategoryId == Id);
             ViewBag.Categories = repository;
+            Category cat = repository.FirstOrDefault(x => x.CategoryId == Id);
             if (cat == null)
             {
                 throw new ApplicationException($"Не получилось загрузить категорию с  ID '{Id}'.");
@@ -67,11 +70,26 @@ namespace TenderApp.Controllers
         [HttpPost]
         public IActionResult Edit(CategoryViewModel category, int Id)
         {
+            ViewBag.Categories = repository;
+            string status = null;
             if (ModelState.IsValid)
             {
-
+                status = "Категория обновлена";
+                var cat = repository.FirstOrDefault(x => x.CategoryId == Id);
+                if (cat == null)
+                {
+                    throw new ApplicationException($"Не получилось загрузить категорию с  ID '{Id}'.");
+                }
+                cat.Name = category.Name;
+                cat.Type = category.Type;
+                cat.Description = category.Description;
+                var parent = repository.FirstOrDefault(x => x.CategoryId == category.ParentId);
+                if (!parent.Children.Contains(cat))
+                cat.Parent = parent;
+                repository.Update(cat);
             }
-            return View();
+            ViewData["Status"] = status ?? "Error произошла ошибка";
+            return View(category);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(int Id)

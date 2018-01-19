@@ -8,7 +8,7 @@
 
 }
 @model IndexViewModel
-@Html.Partial("AccountPartials/_StatusMessage", Model.StatusMessage)
+@Html.Partial("_StatusMessage", Model.StatusMessage)
 <form method="post" asp-action="@ViewBag.Action">
     <div asp-validation-summary="All" class="text-danger"></div>
     @if (admin)

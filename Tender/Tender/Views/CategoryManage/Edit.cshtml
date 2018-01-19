@@ -4,24 +4,37 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
     IEnumerable<Category> categories = ViewBag.Categories;
+    int id = Convert.ToInt16(Url.ActionContext.RouteData.Values["id"]);
 }
-
-<h2>Edit</h2>
 @model CategoryViewModel
-<form asp-action="Edit">
-    <label asp-for="Name"></label>
-    <input asp-for="Name" value="@Model.Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
-    <label asp-for="Description"></label>
-    <textarea value="@Model.Description" asp-for="Description" class="form-control"></textarea>
-    <select asp-for="ParentId" class="custom-select">
-        <option value="@null">Нет</option>
-        @foreach (var cat in categories)
-        {
-           
-            string selected = (cat.Parent!=null&&cat.Parent.CategoryId == Model.ParentId) ? "selected" : "";
-            <option value="@cat.CategoryId" class="@selected">@cat.Name</option>
-        }
-    </select>
+<h2>Редактирование категории</h2>
+
+@Html.Partial("_StatusMessage", ViewData["Status"])
+
+<form asp-action="Edit" asp-route-Id="@id" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" value="@Model.Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea value="@Model.Description" asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+
+        <label asp-for="ParentId"></label>
+        <select asp-for="ParentId" class="custom-select">
+            <option value="0">Нет</option>
+            @foreach (var cat in categories)
+            {
+                if (cat.CategoryId != id)
+                {
+                    string selected = (cat.Parent != null && cat.Parent.CategoryId == Model.ParentId) ? "selected" : "";
+                    <option value="@cat.CategoryId" class="@selected">@cat.Name</option>
+                }
+            }
+        </select>
+    </div>
     <button class="btn btn-primary" type="submit">Редактировать</button>
 </form>
