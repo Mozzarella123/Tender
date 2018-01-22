@@ -9,12 +9,12 @@ namespace TenderApp.Models.BusinessModels
 {
     public class Sub
     {
-        public SubGroup Group { get; set; }
-        [HiddenInput(DisplayValue = false)]
         public int SubId { get; set; }
         public string Name { get; set; }
         public SubType Type { get; set; }
         public int Priority { get; set; }
+        public int SupGroupId { get; set; }
+        public virtual SubGroup SubGroup { get; set; }
         public enum SubType { TextBox,TextArea,Image};
     }
 }

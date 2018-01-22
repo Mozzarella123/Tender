@@ -12,19 +12,10 @@
     @if (!reneredcats.Contains(cat))
     {
         <tr>
-            <td class="text-left">@tab @cat.Name</td>
-            <td>@cat.Description</td>
+            <td class="text-left">@tab @cat.Name @Html.Partial("_RUDPartial", cat.CategoryId)</td>
+            <td>@cat.Description </td>
 
-            <td>
-                <form asp-action="Edit" asp-route-Id="@cat.CategoryId" method="get">
-                    <button class="btn btn-primary">Редактировать</button>
-                </form>
-            </td>
-            <td>
-                <form asp-action="Delete" id="delete" asp-route-Id="@cat.CategoryId">
-                    <button class="btn btn-danger needconfirm">Удалить</button>
-                </form>
-            </td>
+           
         </tr>
         
         reneredcats.Add(cat);

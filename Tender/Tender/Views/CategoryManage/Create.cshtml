@@ -2,13 +2,13 @@
 @using TenderApp.Models.BusinessModels
 
 @{
-    ViewData["Title"] = "Add";
+    ViewData["Title"] = "Создать категорию";
     Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
     IEnumerable<Category> categories = ViewBag.Categories as IEnumerable<Category>;
 }
 @model CategoryViewModel
-<h2>Add</h2>
-<form asp-action="Add">
+<h2>Создать категорию</h2>
+<form asp-action="Create">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />

@@ -7,7 +7,11 @@
 <div>
     <div class="row">
         <div class="col-md-2">
-            @await Html.PartialAsync("AdminPartials/_ManageNav", new Dictionary<string, string>() { { "Пользователи", "Admin/Index" } ,{ "Роли","RoleAdmin/Index" }, { "Группы мета", "Admin/ManageSubs" } })
+            @await Html.PartialAsync("AdminPartials/_ManageNav", new Dictionary<string, string>() {
+           { "Пользователи", "Admin" } ,
+            { "Категории","CategoryManage" },
+           { "Роли","RoleAdmin" },
+           { "Группы мета", "Sub" } })
         </div>
         <div class="col-md-10">
             @RenderBody()

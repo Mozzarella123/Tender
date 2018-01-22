@@ -7,10 +7,10 @@
     ViewBag.RenderedCats = new List<Category>();
 }
 @model IEnumerable<Category>
-<h2>Управление категориями @Html.ActionLink("Добавить", "Add", "CategoryManage", null, null, null, null, new { @class = "btn btn-primary" })</h2>
+<h2>Управление категориями @Html.ActionLink("Добавить", "Create", "CategoryManage", null, null, null, null, new { @class = "btn btn-primary" })</h2>
 
 @*@Html.Cat(Model)*@
-<table class="table table-striped table-sm table-bordered text-center">
+<table class="table table-striped table-sm table-bordered text-center ">
     <thead>
         <tr class="text-center">
             <th>Название</th>

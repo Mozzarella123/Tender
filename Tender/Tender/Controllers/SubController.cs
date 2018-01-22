@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using TenderApp.Services;
 using TenderApp.Models.BusinessModels;
 using Microsoft.AspNetCore.Authorization;
+using TenderApp.Models.AdminViewModels;
+using TenderApp.Models.SubsViewModels;
 
 namespace TenderApp.Controllers
 {
@@ -20,70 +22,118 @@ namespace TenderApp.Controllers
         }
         // GET: Sub
         [HttpGet]
-        public ViewResult ManageSubs()
+        public IActionResult Index()
         {
-            return View(repository.SubGroup);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SubGroups(SubGroup.Type type)
+        {         
+            return View(repository.SubGroup.Where(x => x.ForType == type));
+        }
+        [HttpGet]
+        public IActionResult CreateSub()
+        {
+            return View("CESub");
         }
 
+        [HttpPost]
+        public ActionResult CreateSub(SubViewModel subm)
+        {
+            if (ModelState.IsValid)
+            {
+                SubGroup group = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == subm.SubGroupId);
+                if (group != null)
+                {
+                    Sub sub = new Sub()
+                    {
+                        Name = subm.Name,
+                        SubGroup = group,
+                        Priority = subm.Priority,
+                        Type = subm.Type
+                    };
+                    repository.Sub.Add(sub);
+                    return Redirect("SubGroups");
+                }
+                throw new ApplicationException($"Не получилось загрузить группу с  ID '{subm.SubGroupId}'.");
+            }
+            return View("CESub", subm);
+        }
         [HttpGet]
-        public PartialViewResult EditSubGet(Sub sub)
+        public PartialViewResult EditSub(SubViewModel sub)
         {
             return PartialView("CreateSub", sub);
         }
 
         [HttpPost]
-        public ActionResult EditSubPost(int Parent, Sub sub)
+        public ActionResult EditSub(int Parent, Sub sub)
         {
             SubGroup group = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == Parent);
             if (group != null)
+
             {
                 repository.Sub.Update(sub);
             }
-            
+
             return Redirect("ManageSubs");
         }
 
-        [HttpGet]
-        public PartialViewResult EditSubGroupGet(SubGroup group)
+        [HttpPost]
+        public ActionResult DeleteSub(int SubId)
         {
-            return PartialView("CreateSubGroup", group);
+            Sub current = repository.Sub.FirstOrDefault(s => s.SubId == SubId);
+            if (current != null)
+                repository.Sub.Remove(current);
+            return Redirect("SubGroups");
+        }
+
+        [HttpGet]
+        public IActionResult CreateSubGroup()
+        {
+            return View("CESubGroup");
+        }
+       
+
+        [HttpGet]
+        public PartialViewResult EditSubGroup()
+        {
+            return PartialView("CreateSubGroup");
         }
 
         [HttpPost]
-        public ActionResult EditSubGroupPost(SubGroup group)
+        public IActionResult EditSubGroup(SubGroupViewModel group)
         {
-            repository.SubGroup.Update(group);
-            return Redirect("ManageSubs");
-        }
-
-        [HttpGet]
-        public PartialViewResult CreateSubGroup()
-        {
-            return PartialView();
-        }
-
-        [HttpGet]
-        public PartialViewResult CreateSub()
-        {
-            return PartialView();
-        }
-
-        [HttpPost]
-        public ActionResult CreateSub(int Parent, Sub sub)
-        {
-            SubGroup group = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == Parent);
-            if (group != null)
+            if (ModelState.IsValid)
             {
-                group.Subs.Add(sub);
+                var editgroup = repository.SubGroup.FirstOrDefault(x => x.SubGroupId == group.SubGroupId);
+                editgroup.Name = group.Name;
+                editgroup.Priority = editgroup.Priority;
+                editgroup.ForType = editgroup.ForType;
+                repository.SubGroup.Update(editgroup);
+                return Redirect("ManageSubs");
             }
-            return Redirect("ManageSubs");
+            return View(group);
         }
 
+       
+
         [HttpPost]
-        public ActionResult CreateSubGroup(SubGroup group)
+        public ActionResult CreateSubGroup(SubGroupViewModel group)
         {
-            repository.SubGroup.Add(group);
-            return Redirect("ManageSubs");
+            if (ModelState.IsValid)
+            {
+                SubGroup newgroup = new SubGroup()
+                {
+                    Name = group.Name,
+                    Priority = group.Priority,
+                    ForType = group.ForType
+
+                };
+                repository.SubGroup.Add(newgroup);
+                return Redirect("SubGroups");
+
+            }
+            return View(group);
         }
         [HttpPost]
         public ActionResult DeleteSubGroup(int groupId)
@@ -91,15 +141,8 @@ namespace TenderApp.Controllers
             SubGroup current = repository.SubGroup.FirstOrDefault(s => s.SubGroupId == groupId);
             if (current != null)
                 repository.SubGroup.Remove(current);
-            return Redirect("ManageSubs");
+            return Redirect("SubGroups");
         }
-        [HttpPost]
-        public ActionResult DeleteSub(int SubId)
-        {
-            Sub current = repository.Sub.FirstOrDefault(s => s.SubId == SubId);
-            if (current != null)
-                repository.Sub.Remove(current);
-            return Redirect("ManageSubs");
-        }
+        
     }
 }

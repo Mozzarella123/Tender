@@ -22,13 +22,13 @@ namespace TenderApp.Controllers
             return View(repository);
         }
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Create()
         {
             ViewBag.Categories = repository;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Add(CategoryViewModel category)
+        public async Task<IActionResult> Create(CategoryViewModel category)
         {
             ViewBag.Categories = repository;
 

@@ -1,0 +1,61 @@
+﻿@using TenderApp.Models.BusinessModels
+@{
+    ViewData["Title"] = "SubGroups";
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+@model IEnumerable<SubGroup>
+<h2>Редактирование групп</h2>
+
+@foreach (var group in Model)
+{
+    var i = 0;
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="heading-@i">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-@i" aria-expanded="true" aria-controls="collapse-@i">
+                        @group.Name
+                    </button>
+                </h5>
+                @Html.Partial("_RUDPartial", group.SubGroupId)
+            </div>
+
+            <div id="collapse-@i" class="collapse show" aria-labelledby="heading-@i" data-parent="#accordion">
+                <div class="card-body">
+                    @if (group.Sub != null)
+                    {
+                        foreach (var sub in group.Sub)
+                        {
+                            var j = 0;
+                            <div id="accordion-1">
+                                <div class="card">
+                                    <div class="card-header" id="heading-@i-@j">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-@i-@j" aria-expanded="true" aria-controls="collapse-@i-@j">
+                                                @sub.Name
+                                            </button>
+                                        </h5>
+                                        @Html.Partial("_RUDPartial", sub.SubId)
+                                    </div>
+
+                                    <div id="collapse-@i-@j" class="collapse show" aria-labelledby="heading-@i-@j" data-parent="#accordion-1">
+                                        <div class="card-body">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @Html.ActionLink("Добавить поле", "CreateSub", "Sub", null, null, null, new { SubGroupId = group.SubGroupId }, new { @class = "btn btn-primary" })
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    i++;
+}
+@Html.ActionLink("Добавить группу", "CreateSubGroup", "Sub", null, null, null, new { type = Context.Request.Query["type"] }, new { @class = "btn btn-primary" })
+
+

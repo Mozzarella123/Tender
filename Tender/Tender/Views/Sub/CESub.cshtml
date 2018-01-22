@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    string action = (Model == null) ? "CreateSub" : "EditSub";
+    string text = (Model == null) ? "Добавить" : "Редактировать";
+    int subgruopid = (Model == null) ? Convert.ToInt16(Context.Request.Query["SubGroupId"]) : Model.SubGroupId;
+}
+@using TenderApp.Models.SubsViewModels;
+@model SubViewModel
+<h2>@text поле</h2>
+<form asp-action="@action">
+    @*@Html.Hidden("Parent", Model != null ? Model.Group.SubGroupId : -1,new { id="SubParentId" })*@
+    <input asp-for="SubGroupId" value="@subgruopid" hidden />
+    <input asp-for="SubId" value="@Model?.SubId" hidden />
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" value="@Model?.Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    @*@Html.GetEnumSelectList(Model.Type.GetType());*@
+    <div class="form-group">
+        <label asp-for="Type"></label>
+        <select name="Type" id="SubType" class="custom-select">
+            <option value="0" class="@Model?.Type==Sub.SubType.TextBox?selected:;">TextBox</option>
+            <option value="1" class="@Model?.Type==Sub.SubType.TextArea?selected:;">TextArea</option>
+            <option value="2" class="@Model?.Type==Sub.SubType.Image?selected:;">Image</option>
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Priority"></label>
+        <input asp-for="Priority" value="@Model?.Priority" class="form-control" />
+        <span asp-validation-for="Priority" class="text-danger"></span>
+
+    </div>
+    <button type="submit" class="btn btn-primary">@text</button>
+</form>

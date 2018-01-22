@@ -12,9 +12,10 @@ using TenderApp.Models.BusinessModels;
 namespace TenderApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180122141920_SubsKey")]
+    partial class SubsKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,19 +273,17 @@ namespace TenderApp.Migrations
                     b.Property<int>("SubId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("GroupSubGroupId");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("Priority");
-
-                    b.Property<int?>("SubGroupId");
-
-                    b.Property<int>("SupGroupId");
 
                     b.Property<int>("Type");
 
                     b.HasKey("SubId");
 
-                    b.HasIndex("SubGroupId");
+                    b.HasIndex("GroupSubGroupId");
 
                     b.ToTable("Sub");
                 });
@@ -410,9 +409,9 @@ namespace TenderApp.Migrations
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.Sub", b =>
                 {
-                    b.HasOne("TenderApp.Models.BusinessModels.SubGroup", "SubGroup")
-                        .WithMany("Sub")
-                        .HasForeignKey("SubGroupId");
+                    b.HasOne("TenderApp.Models.BusinessModels.SubGroup", "Group")
+                        .WithMany("Subs")
+                        .HasForeignKey("GroupSubGroupId");
                 });
 
             modelBuilder.Entity("TenderApp.Models.BusinessModels.User_Meta", b =>

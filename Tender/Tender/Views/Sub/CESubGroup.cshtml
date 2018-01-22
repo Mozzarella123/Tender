@@ -1,0 +1,36 @@
+﻿@using TenderApp.Models.SubsViewModels
+@using TenderApp.Models.BusinessModels
+
+@model SubGroupViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Views/Shared/Layouts/_AdminLayout.cshtml";
+    SubGroup.Type t;
+    if (!string.IsNullOrEmpty(Context.Request.Query["type"].ToString()))
+    {
+        t = (SubGroup.Type)Enum.Parse(typeof(SubGroup.Type), Context.Request.Query["type"].ToString());
+    }
+    else { t = Model.ForType; }
+    string action = (Model==null) ? "CreateSubGroup":"EditSubGroup";
+    string text = (Model == null) ? "Добавить" : "Редактировать";
+}
+<h2>@text  группу</h2>
+@*@using (Html.BeginForm("CreateSubGroup","Admin"))*@
+<form asp-action="@action">
+    <input asp-for="SubGroupId" value="@Model?.SubGroupId" hidden />
+    <input asp-for="ForType" value="@t" hidden/>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" value="@Model?.Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Priority"></label>
+        <input asp-for="Priority" value="@Model?.Priority" class="form-control"/>
+        <span asp-validation-for="Priority" class="text-danger"></span>
+
+    </div>
+    <button type="submit" class="btn btn-primary">@text</button>
+</form>

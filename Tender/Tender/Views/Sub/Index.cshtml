@@ -1,0 +1,22 @@
+﻿@using TenderApp.Models.BusinessModels
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+<h2>Управление мета-полями </h2>
+<table class="table table-striped table-sm table-bordered text-center ">
+    <thead>
+        <tr class="text-center">
+            <th>Название</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var value in @EnumHelper<SubGroup.Type>.GetValues(SubGroup.Type.Application))
+        {
+            <tr>
+                <td>@Html.ActionLink(EnumHelper<SubGroup.Type>.GetDisplayValue(value), "SubGroups", "Sub",null,null,null,new { type = value },null)</td>
+            </tr>
+        }
+    </tbody>
+</table>

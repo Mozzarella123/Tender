@@ -10,10 +10,11 @@ namespace TenderApp.Data
     public class GlobalRepository : IRepository
     {
         public GlobalRepository(IContext context,
-            IRepository<SubGroup> subGroup)
+            IRepository<SubGroup> subGroup,IRepository<Sub> subs)
         {
             Context = context;
             SubGroup = subGroup;
+            Sub = subs;
         }
         IContext Context;
         public IRepository<Post> Post { get; set; }

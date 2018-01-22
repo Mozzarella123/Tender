@@ -37,7 +37,7 @@ namespace XunitTenderTests
         //    Mock<IRepository> repos = new Mock<IRepository>();
         //    CategoryManageController controller = new CategoryManageController(repos.Object);
         //    //act
-        //    IActionResult result = await controller.Add(model);
+        //    IActionResult result = await controller.Create(model);
 
         //}
 

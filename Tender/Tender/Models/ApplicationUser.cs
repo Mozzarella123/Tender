@@ -7,7 +7,7 @@ using TenderApp.Models.BusinessModels;
 
 namespace TenderApp.Models
 {
-    // Add profile data for application users by adding properties to the ApplicationUser class
+    // Create profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Attachment> Attachments { get; set; }

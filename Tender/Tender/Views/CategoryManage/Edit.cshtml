@@ -1,7 +1,7 @@
 ﻿@using TenderApp.Models.AdminViewModels
 @using TenderApp.Models.BusinessModels
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактирование категории";
     Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
     IEnumerable<Category> categories = ViewBag.Categories;
     int id = Convert.ToInt16(Url.ActionContext.RouteData.Values["id"]);

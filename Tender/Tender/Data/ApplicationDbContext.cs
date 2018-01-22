@@ -27,33 +27,7 @@ namespace TenderApp.Data
                 base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-        }
-
-        public void SaveSubGroup(SubGroup group)
-        {
-            if (group.SubGroupId != -1)
-                SubGroup.Add(group);
-            else
-            {
-                var temp = SubGroup.FirstOrDefault(s => s.SubGroupId == group.SubGroupId);
-                if (temp != null)
-                {
-                    temp = group;
-                }
-                else
-                    SubGroup.Add(group);
-            }
-            SaveChanges();
-        }
-
-        public void DeleteSubGroup(SubGroup group)
-        {
-            if (group != null)//Чтобы ничего не сломалось, необходимо проверять чтобы обьект не был null
-            {
-                SubGroup.Remove(group);
-                SaveChanges();
-            }
+            // Create your customizations after calling base.OnModelCreating(builder);
         }
         public DbSet<Post> Post { get; set; }
         public DbSet<Attachment> Attachment { get; set; }
@@ -81,13 +55,5 @@ namespace TenderApp.Data
             SaveChanges();
         }
 
-        //IEnumerable<SubGroup> IRepository.SubGroups
-        //{
-        //    get { if (SubGroup == null)
-        //            return new List<SubGroup>();
-        //        else
-        //            return SubGroup.AsEnumerable();
-        //    }
-        //}
     }
 }
